@@ -53,18 +53,19 @@ CONSTRAINT Supervisor_id_FK FOREIGN KEY (Supervisor_id) REFERENCES Students (Std
 );
 
 --4) Create Courses Table
-	CREATE TABLE Courses(
-	[Crs_ID] int NOT NULL,
-	[Cr_Name] varchar(50) NULL,
-	CONSTRAINT Crs_ID_PK PRIMARY KEY (Crs_ID)
+CREATE TABLE Courses(
+	Course_Id int NOT NULL IDENTITY(1,1),
+	Course_Name varchar(50) NOT NULL,
+	Duration varchar(10) NULL,
+	Decription NVARCHAR(MAX) NULL,
+	CONSTRAINT Courses_Id_PK PRIMARY KEY (Course_Id)
 )
-
 
 --5) Create Topic Table
 CREATE TABLE Topics(
-	[Topic_ID] int NOT NULL,
-	[Topic_Name] varchar(20) NULL,
-	[Topic_Desc] varchar(40) NULL,
+	[Topic_ID] int NOT NULL IDENTITY(1,1),
+	[Topic_Name] nvarchar(20) NOT NULL,
+	[Topic_Desc] nvarchar(40) NULL,
 	CONSTRAINT Topic_ID_PK PRIMARY KEY (Topic_ID)
 )
 
@@ -72,8 +73,8 @@ CREATE TABLE Topics(
 CREATE TABLE Course_Topics(
 Topic_id int NOT NULL,
 Course_id INT NOT NULL,
-CONSTRAINT Topic_id_FK FOREIGN KEY (Topic_id) REFERENCES Topics(Topic_ID),
-CONSTRAINT Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Crs_ID),
+CONSTRAINT Course_Topics_Topic_id_FK FOREIGN KEY (Topic_id) REFERENCES Topics(Topic_ID),
+CONSTRAINT Course_Topics_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Course_Id),
 CONSTRAINT Course_Topics_PK PRIMARY KEY (Topic_id,Course_id)
 )
 
@@ -82,7 +83,7 @@ CREATE TABLE Std_courses(
 Course_id INT NOT NULL,
 Std_id INT NOT NULL,
 Grade INT ,
-CONSTRAINT Std_courses_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Crs_ID),
+CONSTRAINT Std_courses_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Course_Id),
 CONSTRAINT Std_courses_Std_id_FK FOREIGN KEY (Std_id) REFERENCES Students(Std_id),
 CONSTRAINT Std_courses_PK PRIMARY KEY (Course_id,Std_id)
 )
@@ -90,7 +91,7 @@ CONSTRAINT Std_courses_PK PRIMARY KEY (Course_id,Std_id)
 CREATE TABLE Ins_courses(
 Course_id INT NOT NULL,
 Ins_id INT NOT NULL,
-CONSTRAINT Ins_courses_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Crs_ID),
+CONSTRAINT Ins_courses_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Course_Id),
 CONSTRAINT Ins_courses_Std_id_FK FOREIGN KEY (Ins_id) REFERENCES Instractor(Ins_id),
 CONSTRAINT Ins_courses_PK PRIMARY KEY (Course_id,Ins_id)
 )
@@ -102,10 +103,9 @@ CREATE TABLE Questions(
 	[Q_Type] int NULL,
 	[Q_Content] varchar(300) NOT NULL,
 	[Correct_Answer] varchar(300) NULL,
-	[Answer-1] varchar(300) NOT NULL,
-	[Answer-2] varchar(300) NOT NULL,
-	[Answer-3] varchar(300) NULL,
-	[Answer-4] varchar(300) NULL,
+	Option1  Nvarchar(max) not null,
+	Option2  Nvarchar(max) not null,
+	Option3  Nvarchar(max) not null,
 	CONSTRAINT QUESTION_ID_PK PRIMARY KEY (Question_ID)
 )
 
