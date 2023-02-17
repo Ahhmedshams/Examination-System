@@ -46,29 +46,39 @@ City NVARCHAR(50) ,
 Std_password VARCHAR(50) NOT NULL ,
 Std_Phone VARCHAR(18),
 Std_Dept INT NOT NULL,
-Supervisor_id INT NOT NULL,
+Supervisor_id INT  NULL,
 CONSTRAINT Std_id_PK PRIMARY KEY (Std_id),
 CONSTRAINT Std_Dept_FK FOREIGN KEY (Std_Dept) REFERENCES Department(Dept_id),
 CONSTRAINT Supervisor_id_FK FOREIGN KEY (Supervisor_id) REFERENCES Students (Std_id),
 );
 
+
 --4) Create Courses Table
 CREATE TABLE Courses(
 	Course_Id int NOT NULL IDENTITY(1,1),
-	Course_Name varchar(50) NOT NULL,
+	Course_Name varchar(50) NOT NULL UNIQUE,
 	Duration varchar(10) NULL,
 	Decription NVARCHAR(MAX) NULL,
 	CONSTRAINT Courses_Id_PK PRIMARY KEY (Course_Id)
 )
 
+
+
 --5) Create Topic Table
 CREATE TABLE Topics(
 	[Topic_ID] int NOT NULL IDENTITY(1,1),
-	[Topic_Name] nvarchar(20) NOT NULL,
-	[Topic_Desc] nvarchar(40) NULL,
+	[Topic_Name] nvarchar(50) NOT NULL UNIQUE,
+	[Topic_Desc] nvarchar(max) NULL,
 	CONSTRAINT Topic_ID_PK PRIMARY KEY (Topic_ID)
 )
+--ALTER TABLE Topics ALTER COLUMN  [Topic_Name] nvarchar(max) NOT NULL UNIQUE
 
+
+SELECT TABLE_NAME,
+       CONSTRAINT_TYPE,CONSTRAINT_NAME
+FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+WHERE TABLE_NAME='Topics';
+ 
 --6) Create Course_Topics Table
 CREATE TABLE Course_Topics(
 Topic_id int NOT NULL,
