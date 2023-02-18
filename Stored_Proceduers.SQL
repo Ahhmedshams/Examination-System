@@ -4,7 +4,7 @@
 
 --1) Create Course
 
-CREATE PROC SP_createCourse @name NVARCHAR(50) , @Duration VARCHAR(10) , @Decription NVARCHAR(MAX)
+CREATE PROC SP_InsertCourse @name NVARCHAR(50) , @Duration VARCHAR(10) = NULL , @Decription NVARCHAR(MAX) = NULL
 AS
 BEGIN
 		IF NOT EXISTS ( SELECT Course_Name FROM Courses WHERE Course_Name = @name  )
@@ -70,7 +70,7 @@ BEGIN
 	IF EXISTS ( SELECT Course_Id FROM Courses WHERE Course_Id = @id  )
 			BEGIN
 				UPDATE Courses 
-				SET Course_Name =isnull(@name,Course_Name),
+				SET Course_Name = isnull(@name,Course_Name),
 					Duration = isnull( @Duration,Duration) ,
 					Decription= isnull(  @Decription , Decription)
 				WHERE Course_Id = @id
@@ -167,15 +167,15 @@ END
 --1) Insert Student
 
 CREATE PROC SP_InsertStudent @Fname  NVARCHAR(20) ,
-				@Lname NVARCHAR(20), @age INT  = NULL ,
-				@email VARCHAR(50) , @Phone VARCHAR(18) ,
+				@Lname NVARCHAR(20),@age INT  = NULL , @gender  VARCHAR(6) ,
+				@email VARCHAR(50) , @Phone VARCHAR(6) ,
 				@Zip_code VARCHAR(10) = NULL , @Street NVARCHAR(50) = NULL,
 				@City NVARCHAR(50) = NULL , @password VARCHAR(50)  ,@Dept INT = NULL ,@Supervisor INT = NULL
 AS 
 BEGIN
 	BEGIN TRY
-			INSERT INTO Students ( Fname, Lname, Std_age, Std_email ,Zip_code ,Street , City ,  Std_password , Std_Phone , Std_Dept , Supervisor_id )
-				VALUES (@Fname, @Lname ,@age ,@email, @Zip_code , @Street , @City ,@password, @Phone , @Dept , @Supervisor  );
+			INSERT INTO Students ( Fname, Lname, Std_age,Std_gender, Std_email ,Zip_code ,Street , City ,  Std_password , Std_Phone , Std_Dept , Supervisor_id )
+				VALUES (@Fname, @Lname ,@age , @gender,@email, @Zip_code , @Street , @City ,@password, @Phone , @Dept , @Supervisor  );
 	END TRY
 	BEGIN CATCH 
 		SELECT 'Error'
@@ -186,7 +186,7 @@ END
 --2) Delete Student 
 
 --By Id
-CREATE PROC SP_StudentById @id INT
+CREATE PROC SP_DeleteStudentById @id INT
 AS
 BEGIN 
 		IF EXISTS ( SELECT Std_id FROM Students WHERE Std_id = @id  )
@@ -254,7 +254,8 @@ CREATE PROC [dbo].SP_UpdateStudent
 				@City NVARCHAR(50) = NULL ,
 				@password VARCHAR(50) = NULL ,
 				@Dept INT = NULL ,
-				@Supervisor INT = NULL 
+				@Supervisor INT = NULL ,
+				@gender  VARCHAR(6) =NULL
 AS
 BEGIN 
 	IF EXISTS ( SELECT Std_Id FROM Students WHERE Std_Id =  @ID )
@@ -270,9 +271,97 @@ BEGIN
 				Std_password = ISNULL(@password,Std_password),
 				Std_Phone = ISNULL(@Phone,Std_Phone),
 				Std_Dept = ISNULL(@Dept,Std_Dept),
-				Supervisor_id = ISNULL(@Supervisor,Supervisor_id)
+				Supervisor_id = ISNULL(@Supervisor,Supervisor_id),
+				Std_gender = ISNULL( @gender,Std_gender)
 			where Std_id = @id
 	ELSE
 			SELECT 'This Student Not Exist'	
 END
+
+
+-----------------Question Stored proc------------------
+
+--1) Insert Question 
+ create proc [dbo].[SP_insertQuestion] 
+			@Q_Content varchar(max),
+			@Q_Correct_Answer varchar(MAX),
+			@Q_Type int,
+			@Crs_ID int
+as
+	begin try
+		insert into Questions(Q_Content, Correct_Answer, Q_Type, Crs_ID)
+		values(@Q_Content,@Q_Correct_Answer,@Q_Type,@Crs_ID)
+	end try
+	begin catch
+		select 'Error'
+	end CATCH
+
+--2) Select Question
+--By ID
+create proc [dbo].[SP_selectQuestionByID] 
+			@Q_ID int
+			
+as
+	begin try
+		select *  from Questions
+		where Question_ID = @Q_ID
+
+	end try
+	begin catch
+		select 'Error'
+	end CATCH
+
+
+--Get ALL
+create proc [dbo].[SP_showAllQuestions] 					
+as
+	begin try
+		select *  from Questions
+		
+	end try
+	begin catch
+		select 'Error'
+	end CATCH
+
+-- 3) Update Question
+ create proc [dbo].[SP_updateQuestions] 
+			@Q_ID int,
+			@Q_Content varchar(300) = null,
+			@Q_Type int = null,
+			@Q_Correct_Answer varchar(300) = null,
+			@Crs_ID int = null
+as
+	begin try
+		update Questions 
+		set
+			Q_Content=isnull(@Q_Content,Q_Content),
+			Q_Type = isnull(@Q_Type,Q_Type),
+			Correct_Answer = isnull(@Q_Correct_Answer,Correct_Answer),
+			Crs_ID =isnull(@Crs_ID,Crs_ID)
+		where Question_ID = @Q_ID
+
+	end try
+	begin catch
+		select 'Error'
+	end catch
+
+--4) Delete Question 
+
+ create proc [dbo].[SP_deleteQuestions] 
+			@Q_ID int	
+as
+	begin try
+		delete from Questions
+		where Question_ID = @Q_ID
+
+	end try
+	begin catch
+		select 'Error'
+	end CATCH
+
+
+
+
+
+
 
