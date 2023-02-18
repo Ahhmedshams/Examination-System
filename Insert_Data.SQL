@@ -43,7 +43,9 @@ SP_InsertCourse  @name ='HTML5&CSS3#' , @Duration  = '12h'
 GO
 
 SP_DeleteCourseByName 'CST'
-
+SP_DeleteCourseById 3
+SP_GetAllCourse
+SP_UpdateCourse 5, @Decription = 'Advanced Java Script'
 
 
 

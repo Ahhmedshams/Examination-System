@@ -9,8 +9,9 @@ Ins_id INT  NOT NULL IDENTITY(1,1) ,
 Fname  NVARCHAR(20) NOT NULL ,
 Lname NVARCHAR(20) NOT NULL , 
 Ins_age INT ,
+Ins_gender VARCHAR(6) , 
 Ins_email VARCHAR(50) UNIQUE NOT NULL,
-Std_Phone VARCHAR(18),
+Ins_Phone VARCHAR(18),
 Zip_code VARCHAR(10) ,
 Street NVARCHAR(50) , 
 City NVARCHAR(50) ,
@@ -19,14 +20,13 @@ Ins_Salary INT ,
 CONSTRAINT Ins_id_PK PRIMARY KEY (Ins_id),
 );
 -- Create Realation
-
 ALTER TABLE Instractor ADD Ins_Dept int FOREIGN KEY REFERENCES Department(Dept_id)
 
 --2) Create Department Table
 CREATE TABLE Department (
 Dept_id INT  NOT NULL IDENTITY(1,1),
 Dept_Name NVARCHAR(30) NOT NULL UNIQUE,
-Dept_Manager int NOT NULL,
+Dept_Manager int ,
 HireDate DATE DEFAULT GETDATE(),
 CONSTRAINT Dept_id_PK PRIMARY KEY (Dept_id),
 CONSTRAINT Dept_Manager_FK FOREIGN KEY (Dept_Manager) REFERENCES Instractor(Ins_id),
@@ -39,13 +39,14 @@ Std_id INT NOT NULL IDENTITY(1,1),
 Fname  NVARCHAR(20) NOT NULL ,
 Lname NVARCHAR(20) NOT NULL , 
 Std_age INT ,
+Std_gender VARCHAR(6) , 
 Std_email VARCHAR(50) UNIQUE NOT NULL,
 Zip_code VARCHAR(10) ,
 Street NVARCHAR(50) , 
 City NVARCHAR(50) ,
 Std_password VARCHAR(50) NOT NULL ,
 Std_Phone VARCHAR(18),
-Std_Dept INT NOT NULL,
+Std_Dept INT ,
 Supervisor_id INT  NULL,
 CONSTRAINT Std_id_PK PRIMARY KEY (Std_id),
 CONSTRAINT Std_Dept_FK FOREIGN KEY (Std_Dept) REFERENCES Department(Dept_id),
@@ -81,7 +82,7 @@ WHERE TABLE_NAME='Topics';
  
 --6) Create Course_Topics Table
 CREATE TABLE Course_Topics(
-Topic_id int NOT NULL,
+Topic_id int NOT NULL ,
 Course_id INT NOT NULL,
 CONSTRAINT Course_Topics_Topic_id_FK FOREIGN KEY (Topic_id) REFERENCES Topics(Topic_ID),
 CONSTRAINT Course_Topics_Course_id_FK FOREIGN KEY (Course_id) REFERENCES Courses (Course_Id),
@@ -113,10 +114,18 @@ CREATE TABLE Questions(
 	[Q_Type] int NULL,
 	[Q_Content] varchar(300) NOT NULL,
 	[Correct_Answer] varchar(300) NULL,
-	Option1  Nvarchar(max) not null,
-	Option2  Nvarchar(max) not null,
-	Option3  Nvarchar(max) not null,
-	CONSTRAINT QUESTION_ID_PK PRIMARY KEY (Question_ID)
+	CONSTRAINT QUESTION_ID_PK PRIMARY KEY (Question_ID)
 )
+
+--10) Create Question_Choices Table
+CREATE TABLE Question_Choices(
+	[Question_ID] [int] NOT NULL,
+	[Option-1] [varchar](max) Not NULL,
+	[Option-2] [varchar](max) Not NULL,
+	[Option-3] [varchar](max) Not NULL,
+	[Option-4] [varchar](max) Not NULL,
+	CONSTRAINT Q_ID_FK FOREIGN KEY (Question_ID) REFERENCES Questions(Question_ID),
+	CONSTRAINT Q_choices_PK PRIMARY KEY (Question_ID)
+	)
 
 
