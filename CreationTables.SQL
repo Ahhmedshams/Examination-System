@@ -32,6 +32,7 @@ CONSTRAINT Dept_id_PK PRIMARY KEY (Dept_id),
 CONSTRAINT Dept_Manager_FK FOREIGN KEY (Dept_Manager) REFERENCES Instractor(Ins_id),
 );
 
+SET IDENTITY_INSERT Instractor OFF
 
 --3) Create Student Table
 CREATE TABLE Students (
@@ -111,21 +112,24 @@ CONSTRAINT Ins_courses_PK PRIMARY KEY (Course_id,Ins_id)
 CREATE TABLE Questions(
 	[Question_ID] int IDENTITY(1,1) NOT NULL,
 	[Crs_ID] int NULL,
-	[Q_Type] int NULL,
+	[Q_Type] VARCHAR(4) NULL,
 	[Q_Content] varchar(300) NOT NULL,
-	[Correct_Answer] varchar(300) NULL,
+	[Correct_Answer] char(1) NULL,
 	CONSTRAINT QUESTION_ID_PK PRIMARY KEY (Question_ID)
 )
 
 --10) Create Question_Choices Table
 CREATE TABLE Question_Choices(
 	[Question_ID] [int] NOT NULL,
-	[Option-1] [varchar](max) Not NULL,
-	[Option-2] [varchar](max) Not NULL,
-	[Option-3] [varchar](max) Not NULL,
-	[Option-4] [varchar](max) Not NULL,
+	[A] varchar(max) Not NULL,
+	[B] varchar(max) Not NULL,
+	[C] varchar(max)  NULL,
+	[D] varchar(max)  NULL,
 	CONSTRAINT Q_ID_FK FOREIGN KEY (Question_ID) REFERENCES Questions(Question_ID),
 	CONSTRAINT Q_choices_PK PRIMARY KEY (Question_ID)
 	)
 
+
+
+	
 

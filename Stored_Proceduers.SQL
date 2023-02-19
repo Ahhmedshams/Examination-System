@@ -110,6 +110,8 @@ BEGIN
 	ELSE
 			SELECT 'This Instractor Not Exist'	
 END
+
+
 -----------------Department Stored proc------------------
 --1) Insert Department
 CREATE PROC SP_InsertDepartment @name  NVARCHAR(30) ,
@@ -117,14 +119,19 @@ CREATE PROC SP_InsertDepartment @name  NVARCHAR(30) ,
 				 
 AS 
 BEGIN
-	BEGIN TRY
-			INSERT INTO Department ( Dept_Name, Dept_Manager, HireDate)
-				VALUES (@name, @Manager , ISNULL(@HireDate, GETDATE())  );
-	END TRY
-	BEGIN CATCH 
-		SELECT 'Error'
-	END CATCH
+	IF NOT EXISTS ( SELECT Ins_id FROM Instractor WHERE Ins_id = @Manager  )
+				SELECT 'This Department Manager Does not  Exist'
+	ELSE
+	BEGIN 
+		IF NOT EXISTS ( SELECT Dept_Name FROM Department WHERE Dept_Name = @name  )
+				INSERT INTO Department ( Dept_Name, Dept_Manager, HireDate)
+					VALUES (@name, @Manager , ISNULL(@HireDate, GETDATE())  );
+			ELSE
+				SELECT 'This Department already Exist'
+	END
 END
+
+
 
 --2) Delete Department 
 
@@ -140,6 +147,8 @@ BEGIN
 		ELSE
 			SELECT 'This Department Not Exist'
 END
+
+
 
 --3) Select Department 
 
@@ -464,27 +473,68 @@ BEGIN
 END
 -----------------Course_Topics Stored proc------------------
 --1) Insert Course_Topics
-/*
-CREATE PROC SP_InsertCourse_Topics @name NVARCHAR(50) , @Duration VARCHAR(10) = NULL , @Decription NVARCHAR(MAX) = NULL
+
+CREATE PROC SP_InsertCourse_Topics @course INT , @topic INT
 AS
 BEGIN
-		IF NOT EXISTS ( SELECT Course_Name FROM Courses WHERE Course_Name = @name  )
-			INSERT INTO Courses ( Course_Name, Duration, Decription)
-				VALUES (@name, @Duration , @Decription);
-		ELSE
-			SELECT 'This Course already Exist'
+	BEGIN TRY
+			INSERT INTO Course_Topics ( Course_id, Topic_id)
+				VALUES (@course, @topic );
+	END TRY
+	BEGIN CATCH
+			SELECT 'Error'
+	END CATCH
 END
-*/
 
+--2) Delete Course_Topics
+CREATE PROC SP_DeleteAllTopiceRelatedToCourse @id INT
+AS
+BEGIN 
+	BEGIN TRY
+		
+				delete from Course_Topics
+				where Course_Id = @id
+		END TRY
+	BEGIN CATCH
+			SELECT 'Error'
+	END CATCH
+END
+CREATE PROC SP_DeleteSpecificTopic @course INT , @topic INT
+AS
+BEGIN 
+	BEGIN TRY
+		
+				delete from Course_Topics
+				where Course_Id = @course AND Topic_id = @topic
+		END TRY
+	BEGIN CATCH
+			SELECT 'Error'
+	END CATCH
+END
 
+-- 3) Select Course_Topics
+create proc [dbo].[SP_GetAllCourse_Topics] 					
+as
+	begin 
+		select *  from Course_Topics
+		
+	end 
+
+--Get course topics 
+create proc [dbo].[SP_GetCourseTopics] 	 @course INT				
+as
+	begin 
+		select *  from Course_Topics WHERE  Course_Id = @course
+		
+	end 
 
 -----------------Question Stored proc------------------
 
 --1) Insert Question 
  create proc [dbo].[SP_insertQuestion] 
 			@Q_Content varchar(max),
-			@Q_Correct_Answer varchar(MAX),
-			@Q_Type int,
+			@Q_Correct_Answer char(1),
+			@Q_Type VARCHAR(4),
 			@Crs_ID int
 as
 	begin try
@@ -494,9 +544,10 @@ as
 	begin catch
 		select 'Error'
 	end CATCH
-
 --2) Select Question
 --By ID
+
+
 create proc [dbo].[SP_selectQuestionByID] 
 			@Q_ID int
 			
@@ -526,8 +577,8 @@ as
  create proc [dbo].[SP_updateQuestions] 
 			@Q_ID int,
 			@Q_Content varchar(300) = null,
-			@Q_Type int = null,
-			@Q_Correct_Answer varchar(300) = null,
+			@Q_Type VARCHAR(4) = null,
+			@Q_Correct_Answer char(1) = null,
 			@Crs_ID int = null
 as
 	begin try
@@ -569,7 +620,7 @@ CREATE PROC [dbo].[InsQuestionChoices] @id int,
 AS
 	BEGIN TRY
 
-		INSERT INTO Question_Choices(Question_ID, [Option-1], [Option-2], [Option-3], [Option-4])
+		INSERT INTO Question_Choices(Question_ID, A, B, C, D)
 		VALUES( @id, @Opt1, @Opt2, @Opt3, @Opt4)
 
 	END TRY
@@ -637,10 +688,10 @@ AS
 	BEGIN TRY
 
 		UPDATE Question_Choices
-		SET [Option-1] = isnull(@Opt1, [Option-1]),
-			[Option-2] = isnull(@Opt2, [Option-2]),
-			[Option-3] = isnull(@Opt3, [Option-3]),
-			[Option-4] = isnull(@Opt4, [Option-4])
+		SET A = isnull(@Opt1, [Option-1]),
+			B = isnull(@Opt2, [Option-2]),
+			C = isnull(@Opt3, [Option-3]),
+			D = isnull(@Opt4, [Option-4])
 		WHERE Question_ID = @id
 		
 	END TRY
