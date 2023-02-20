@@ -292,3 +292,329 @@ SP_InsertCourse_Topics 6,6
 
 SP_DeleteSpecificTopic @course= 5 , @topic = 7
 SP_DeleteAllTopiceRelatedToCourse 2
+
+
+
+--Exam
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES ( 120, 10, CAST(N'2020-04-23' AS Date), 1)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (50, 10, CAST(N'2014-11-16' AS Date), 1)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (50, 120, CAST(N'2020-08-15' AS Date), 2)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (120, 20, CAST(N'2014-04-25' AS Date), 2)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (50, 10, CAST(N'2011-01-15' AS Date), 2)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (150, 110, CAST(N'2010-10-15' AS Date), 1)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (100, 80, CAST(N'2010-11-26' AS Date), 1)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (100, 100, CAST(N'2018-06-22' AS Date), 2)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (150, 90, CAST(N'2010-10-08' AS Date), 2)
+GO
+INSERT [dbo].[Exam] ([ExamGrade], [ExamTime], [ExamDate], [CourseId]) VALUES (150, 90, CAST(N'2012-10-31' AS Date), 1)
+GO
+
+
+--Exam Question
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 1)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 2)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 3)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 4)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 5)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 6)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 7)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 20)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 21)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (1, 22)
+GO
+
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 8)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 9)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 10)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 11)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 12)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 13)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 14)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 24)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 25)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (2, 26)
+GO
+
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 30)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 31)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 32)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 33)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 34)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 35)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 36)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 43)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 44)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (3, 45)
+GO
+
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 34)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 35)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 36)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 37)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 38)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 39)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 40)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 50)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 51)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (4, 52)
+GO
+
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 34)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 35)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 36)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 37)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 38)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 39)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 40)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 46)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 47)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (5, 48)
+GO
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 12)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 13)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 14)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 15)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 16)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 17)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 18)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 22)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 23)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (6, 24)
+GO
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 10)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 19)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 12)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 1)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 3)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 8)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 9)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 20)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 25)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (7, 23)
+GO
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 31)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 33)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 36)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 38)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 40)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 42)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 30)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 43)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 49)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (8, 51)
+GO
+
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 40)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 41)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 42)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 30)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 31)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 33)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 37)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 45)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 47)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (9, 43)
+GO
+
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 2)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 4)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 6)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 8)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 10)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 12)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 14)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 24)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 26)
+GO
+INSERT [dbo].[Exam_Question] ([ExamId], [QuesId]) VALUES (10, 28)
+GO
+
+
+
+
+--ins_courses
+INSERT INTO [dbo].[Ins_courses] ([Ins_id], [Course_id])
+ VALUES (1, 1),
+  (2, 1),(3, 2),(4, 2),
+  (41, 2),(42, 2),(43, 3),
+  (44, 3),(45, 3),(46, 3),
+  (47, 3),(48, 4),(49, 4),
+  (50, 4),(51, 4),(52, 4),
+  (53, 4),(75, 6),(74, 7),
+  (76, 8),(80, 1),(81, 1),
+  (23, 1),(24, 1),(25, 8),
+  (26, 8),(27, 8),(28, 8),
+  (29, 8),(30, 1),(31, 1),
+  (32, 1),(33, 1),(34, 1),
+  (35, 2),(36, 2),(37, 2),
+  (38, 2),(39, 2),(40, 3),
+  (1, 3),(2, 3),(4, 8),
+  (90, 7),(91, 6),(3, 3)
+GO
+
+
+--student-courses
+
+INSERT [dbo].[Std_courses] ([Course_id],[Std_id], [Grade])
+ VALUES (1,1,100),
+  (2,2,120),(2,3,40),(2,4,50),
+  (2,5,120),(1,6,80),(2,7,85),
+  (1,8,50),(1,9,150),(2,10,120),
+  (2,11,45),(1,12,99),(2,13,35),
+  (1,14,110),(2,15,47),(2,16,117),
+  (2,17,143),(2,18,142),(1,19,37),
+  (2,20,120),(1,21,110),(2,22,39)
+  GO
+
+
+
+--student answer
+
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 1, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 2, 'D')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 3, 'A')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 4, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 5, 'D')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 6, 'C')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 7, 'C')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 20, 'A')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 21, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (1, 1, 22, 'A')
+  GO
+
+
+  
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 1, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 2, 'D')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 3, 'A')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 4, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 5, 'D')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 6, 'C')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 7, 'C')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 20, 'A')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 21, 'B')
+  GO
+  INSERT [dbo].[Student_Answer] ([StudId], [ExamId], [QuesId], [StudQuesAns]) VALUES (6, 1, 22, 'A')
+  GO

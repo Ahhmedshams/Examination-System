@@ -677,7 +677,7 @@ AS
 	END CATCH
 
 
---3) UPDATE  Question Choice
+--4) UPDATE  Question Choice
 CREATE PROC [dbo].[UpQuestionChoice] @id int, 
 							 @Opt1 varchar(300) = NULL,
 							 @Opt2 varchar(300) = NULL,
@@ -699,8 +699,12 @@ AS
 		SELECT 'Error'
 	END CATCH
 
------------------Ins_courses Stored proc------------------
 
+
+
+
+
+-----------------Ins_courses Stored proc------------------
 --1) Insert Ins_courses
 create proc [dbo].[insert_Ins_Crs] @Crs_ID int, @Ins_ID int
 as
@@ -843,3 +847,145 @@ as
 	begin catch
 		select 'Error'
 	end CATCH
+
+
+
+
+
+
+
+
+
+
+
+
+
+--Exam Generation
+
+CREATE PROC [dbo].[sp_exam_generation]  @cur_Id INT, @no_TF INT, @no_ML INT, @exam_time INT, @exam_grade INT
+AS
+BEGIN
+	INSERT INTO Exam(ExamGrade , ExamTime, CourseId)
+	VALUES     (@exam_grade, @exam_time,@cur_Id)
+
+DECLARE @ex_id INT
+SELECT  @ex_id = MAX(ExamId) FROM Exam
+
+INSERT INTO Exam_Question    --Generate true & false Question
+	SELECT TOP(@no_TF) @ex_id, Q.Question_ID
+	FROM Questions Q JOIN Courses C ON C.Course_Id =Q.Crs_ID
+	WHERE C.Course_Id = @cur_Id AND Q.Q_Type IN('TF')
+	ORDER BY NEWID()	
+
+INSERT INTO Exam_Question	--Generate multiple choice Question
+	SELECT TOP(@no_ML) @ex_id, Q.Question_ID
+	FROM Questions Q JOIN Courses C ON C.Course_Id =Q.Crs_ID
+	WHERE C.Course_Id = @cur_Id AND Q.Q_Type IN('MCQ')
+	ORDER BY NEWID()
+
+SELECT  Q.Question_ID, Q.Q_Content, [A], [B], [C], [D]  --Return Exam Question
+	FROM Questions Q INNER JOIN Question_Choices chs ON Q.Question_ID =chs.Question_ID
+	JOIN Exam_Question EX ON Q.Question_ID = EX.QuesId
+	WHERE EX.ExamId = @ex_id
+
+END
+GO
+--test
+sp_exam_generation 2,3,7,40,100
+
+
+
+--Exam Correction
+CREATE PROC Exam_Correction @stud_id int, @exam_id int
+AS
+DECLARE @total_questions int
+SELECT  @total_questions = count(QuesId) FROM Student_Answer
+WHERE  StudId = @stud_id AND ExamId = @exam_id
+
+DECLARE @total_right_questions float
+SELECT  @total_right_questions = count(SA.QuesId) 
+FROM Student_Answer SA JOIN Questions Q ON SA.QuesId = Q.Question_ID
+WHERE  StudId = @stud_id AND ExamId = @exam_id AND SA.StudQuesAns = Q.Correct_Answer
+
+DECLARE @Grade INT
+SELECT  @Grade = @total_right_questions/@total_questions*100
+
+UPDATE Std_courses
+SET	   Grade = @Grade
+WHERE  Std_id = @stud_id and Course_id = (Select CourseId from Exam where ExamId = @exam_id)
+
+SELECT 'Student Degree Percentage' + str(@Grade) + '%'
+go
+
+--test
+
+Exam_Correction 1,1
+
+Exam_Correction 6,1
+
+--Student Exam
+
+CREATE PROC Student_Exam @student_id int, @course_id int
+AS
+IF not EXISTS (SELECT * FROM Std_courses WHERE Std_id = @student_id AND Course_id = @course_id)
+	SELECT 'you are not recorded at this course'
+ELSE
+	begin
+	DECLARE @exam_id int
+	SELECT  @exam_id = MAX(ExamId) FROM Exam
+	WHERE   CourseId = @course_id
+	ORDER BY NEWID()
+
+	DECLARE @Number_Questoin int
+	SELECT @Number_Questoin = COUNT(QuesId) FROM Exam_Question
+	WHERE  ExamId = @exam_id
+
+	SELECT @exam_id Exam_ID, q.Question_ID, q.Q_Content, chs.Option_1,chs.Option_2,chs.Option_3,chs.Option_4,q.Q_Type,e.ExamTime, @Number_Questoin Num_Q_exam
+	FROM Questions q 
+	JOIN Question_Choices chs ON Q.Question_ID = chs.Question_ID
+	JOIN Exam_Question eq ON q.Question_ID = eq.QuesId
+	JOIN Exam e ON e.ExamId = eq.ExamId
+	WHERE eq.ExamId = @exam_id
+	ORDER BY NEWID()
+	END
+	go
+
+
+
+
+-- Exam Answers Stored procedure
+
+CREATE PROCEDURE  [dbo].[PRO_examAnswers]
+    @examId INT,
+	@student_id INT,
+	@questionId INT,
+	@ans CHAR(1)
+AS
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM Exam WHERE ExamId=@examId)
+			BEGIN
+            	SELECT 'Exam do not exist' AS 'errMessage'
+            END
+		ELSE IF NOT EXISTS (SELECT * FROM Questions q WHERE Question_ID=@questionId)
+		BEGIN
+            SELECT 'Question does not exist' AS 'errMessage'
+        END
+		ELSE IF NOT EXISTS (SELECT * FROM Students s WHERE s.Std_id=@student_id)
+			BEGIN
+            	SELECT 'Student does not exist' AS 'errMessage'
+            END
+		ELSE
+			BEGIN	
+				INSERT INTO Student_Answer (ExamId, QuesId, StudId, StudQuesAns)
+				VALUES (@examId, @questionId, @student_id, @ans);
+			END		
+	END TRY
+	BEGIN CATCH
+	 SELECT ERROR_MESSAGE() AS errorMessage
+	END CATCH
+
+
+	EXEC PRO_examAnswers @examId = 1
+						,@student_id = 2
+						,@questionId = 5
+						,@ans = 'B'

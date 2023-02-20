@@ -130,6 +130,34 @@ CREATE TABLE Question_Choices(
 	)
 
 
+--11) Create Exam Table
+CREATE TABLE Exam(
+	[ExamId] [int] IDENTITY(1,1) NOT NULL,
+	[ExamGrade] [float] NULL,
+	[ExamTime] [float] NULL,
+	[ExamDate] [date] NULL,
+	[CourseId] [int] NULL,
+	CONSTRAINT Course_ID_FK FOREIGN KEY (CourseId) REFERENCES Courses(Course_Id),
+	CONSTRAINT Exam_PK PRIMARY KEY (ExamId)
+	)
 
+--12) Create Exam Question
+CREATE TABLE [dbo].[Exam_Question](
+	[ExamId] [int] NOT NULL,
+	[QuesId] [int] NOT NULL,
+	CONSTRAINT Ques_ID_FK FOREIGN KEY ([QuesId]) REFERENCES Questions([Question_ID]),
+	CONSTRAINT Exam_Question_PK PRIMARY KEY (ExamId,QuesId)
+	)
 	
 
+
+--13) Create Student ExamAnswers table
+CREATE TABLE [dbo].[Student_Answer](
+	[StudId] [int] NOT NULL,
+	[ExamId] [int] NOT NULL,
+	[QuesId] [int] NOT NULL,
+	[StudQuesAns] char(1) NULL,
+	CONSTRAINT Stud_ID_FK FOREIGN KEY ([StudId]) REFERENCES Students([Std_id]),
+	CONSTRAINT Exam_ID_FK FOREIGN KEY ([ExamId]) REFERENCES Exam([ExamId]),
+	CONSTRAINT Question_ID_FK FOREIGN KEY ([QuesId]) REFERENCES Questions([Question_ID]),
+	CONSTRAINT Stud_QAns_PK PRIMARY KEY (StudId,ExamId,QuesId) )
