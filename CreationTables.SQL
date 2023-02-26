@@ -161,3 +161,20 @@ CREATE TABLE [dbo].[Student_Answer](
 	CONSTRAINT Exam_ID_FK FOREIGN KEY ([ExamId]) REFERENCES Exam([ExamId]),
 	CONSTRAINT Question_ID_FK FOREIGN KEY ([QuesId]) REFERENCES Questions([Question_ID]),
 	CONSTRAINT Stud_QAns_PK PRIMARY KEY (StudId,ExamId,QuesId) )
+
+---constraints
+alter table Instractor  add constraint CHECK_Ins_Gender
+check(Ins_gender in ('male', 'female'))
+
+alter table Students  add constraint CHECK_Std_Gender
+check(Std_gender in ('male', 'female'))
+
+alter TABLE Instractor
+ADD CONSTRAINT CHECK_Ins_Email  CHECK(Ins_email LIKE '%___@___%') 
+
+alter TABLE Students
+ADD CONSTRAINT CHECK_Std_Email  CHECK(Std_email LIKE '%___@___%') 
+
+SELECT * FROM Students s  WHERE  s.Std_email  NOT LIKE '%___@___%'
+
+

@@ -110,8 +110,6 @@ BEGIN
 	ELSE
 			SELECT 'This Instractor Not Exist'	
 END
-
-
 -----------------Department Stored proc------------------
 --1) Insert Department
 CREATE PROC SP_InsertDepartment @name  NVARCHAR(30) ,
@@ -119,19 +117,14 @@ CREATE PROC SP_InsertDepartment @name  NVARCHAR(30) ,
 				 
 AS 
 BEGIN
-	IF NOT EXISTS ( SELECT Ins_id FROM Instractor WHERE Ins_id = @Manager  )
-				SELECT 'This Department Manager Does not  Exist'
-	ELSE
-	BEGIN 
-		IF NOT EXISTS ( SELECT Dept_Name FROM Department WHERE Dept_Name = @name  )
-				INSERT INTO Department ( Dept_Name, Dept_Manager, HireDate)
-					VALUES (@name, @Manager , ISNULL(@HireDate, GETDATE())  );
-			ELSE
-				SELECT 'This Department already Exist'
-	END
+	BEGIN TRY
+			INSERT INTO Department ( Dept_Name, Dept_Manager, HireDate)
+				VALUES (@name, @Manager , ISNULL(@HireDate, GETDATE())  );
+	END TRY
+	BEGIN CATCH 
+		SELECT 'Error'
+	END CATCH
 END
-
-
 
 --2) Delete Department 
 
@@ -147,8 +140,6 @@ BEGIN
 		ELSE
 			SELECT 'This Department Not Exist'
 END
-
-
 
 --3) Select Department 
 
@@ -473,68 +464,27 @@ BEGIN
 END
 -----------------Course_Topics Stored proc------------------
 --1) Insert Course_Topics
-
-CREATE PROC SP_InsertCourse_Topics @course INT , @topic INT
+/*
+CREATE PROC SP_InsertCourse_Topics @name NVARCHAR(50) , @Duration VARCHAR(10) = NULL , @Decription NVARCHAR(MAX) = NULL
 AS
 BEGIN
-	BEGIN TRY
-			INSERT INTO Course_Topics ( Course_id, Topic_id)
-				VALUES (@course, @topic );
-	END TRY
-	BEGIN CATCH
-			SELECT 'Error'
-	END CATCH
+		IF NOT EXISTS ( SELECT Course_Name FROM Courses WHERE Course_Name = @name  )
+			INSERT INTO Courses ( Course_Name, Duration, Decription)
+				VALUES (@name, @Duration , @Decription);
+		ELSE
+			SELECT 'This Course already Exist'
 END
+*/
 
---2) Delete Course_Topics
-CREATE PROC SP_DeleteAllTopiceRelatedToCourse @id INT
-AS
-BEGIN 
-	BEGIN TRY
-		
-				delete from Course_Topics
-				where Course_Id = @id
-		END TRY
-	BEGIN CATCH
-			SELECT 'Error'
-	END CATCH
-END
-CREATE PROC SP_DeleteSpecificTopic @course INT , @topic INT
-AS
-BEGIN 
-	BEGIN TRY
-		
-				delete from Course_Topics
-				where Course_Id = @course AND Topic_id = @topic
-		END TRY
-	BEGIN CATCH
-			SELECT 'Error'
-	END CATCH
-END
 
--- 3) Select Course_Topics
-create proc [dbo].[SP_GetAllCourse_Topics] 					
-as
-	begin 
-		select *  from Course_Topics
-		
-	end 
-
---Get course topics 
-create proc [dbo].[SP_GetCourseTopics] 	 @course INT				
-as
-	begin 
-		select *  from Course_Topics WHERE  Course_Id = @course
-		
-	end 
 
 -----------------Question Stored proc------------------
 
 --1) Insert Question 
  create proc [dbo].[SP_insertQuestion] 
 			@Q_Content varchar(max),
-			@Q_Correct_Answer char(1),
-			@Q_Type VARCHAR(4),
+			@Q_Correct_Answer varchar(MAX),
+			@Q_Type int,
 			@Crs_ID int
 as
 	begin try
@@ -544,10 +494,9 @@ as
 	begin catch
 		select 'Error'
 	end CATCH
+
 --2) Select Question
 --By ID
-
-
 create proc [dbo].[SP_selectQuestionByID] 
 			@Q_ID int
 			
@@ -577,8 +526,8 @@ as
  create proc [dbo].[SP_updateQuestions] 
 			@Q_ID int,
 			@Q_Content varchar(300) = null,
-			@Q_Type VARCHAR(4) = null,
-			@Q_Correct_Answer char(1) = null,
+			@Q_Type int = null,
+			@Q_Correct_Answer varchar(300) = null,
 			@Crs_ID int = null
 as
 	begin try
@@ -620,7 +569,7 @@ CREATE PROC [dbo].[InsQuestionChoices] @id int,
 AS
 	BEGIN TRY
 
-		INSERT INTO Question_Choices(Question_ID, A, B, C, D)
+		INSERT INTO Question_Choices(Question_ID, [Option-1], [Option-2], [Option-3], [Option-4])
 		VALUES( @id, @Opt1, @Opt2, @Opt3, @Opt4)
 
 	END TRY
@@ -677,7 +626,7 @@ AS
 	END CATCH
 
 
---4) UPDATE  Question Choice
+--3) UPDATE  Question Choice
 CREATE PROC [dbo].[UpQuestionChoice] @id int, 
 							 @Opt1 varchar(300) = NULL,
 							 @Opt2 varchar(300) = NULL,
@@ -688,10 +637,10 @@ AS
 	BEGIN TRY
 
 		UPDATE Question_Choices
-		SET A = isnull(@Opt1, [Option-1]),
-			B = isnull(@Opt2, [Option-2]),
-			C = isnull(@Opt3, [Option-3]),
-			D = isnull(@Opt4, [Option-4])
+		SET [Option-1] = isnull(@Opt1, [Option-1]),
+			[Option-2] = isnull(@Opt2, [Option-2]),
+			[Option-3] = isnull(@Opt3, [Option-3]),
+			[Option-4] = isnull(@Opt4, [Option-4])
 		WHERE Question_ID = @id
 		
 	END TRY
@@ -699,12 +648,8 @@ AS
 		SELECT 'Error'
 	END CATCH
 
-
-
-
-
-
 -----------------Ins_courses Stored proc------------------
+
 --1) Insert Ins_courses
 create proc [dbo].[insert_Ins_Crs] @Crs_ID int, @Ins_ID int
 as
@@ -847,145 +792,3 @@ as
 	begin catch
 		select 'Error'
 	end CATCH
-
-
-
-
-
-
-
-
-
-
-
-
-
---Exam Generation
-
-CREATE PROC [dbo].[sp_exam_generation]  @cur_Id INT, @no_TF INT, @no_ML INT, @exam_time INT, @exam_grade INT
-AS
-BEGIN
-	INSERT INTO Exam(ExamGrade , ExamTime, CourseId)
-	VALUES     (@exam_grade, @exam_time,@cur_Id)
-
-DECLARE @ex_id INT
-SELECT  @ex_id = MAX(ExamId) FROM Exam
-
-INSERT INTO Exam_Question    --Generate true & false Question
-	SELECT TOP(@no_TF) @ex_id, Q.Question_ID
-	FROM Questions Q JOIN Courses C ON C.Course_Id =Q.Crs_ID
-	WHERE C.Course_Id = @cur_Id AND Q.Q_Type IN('TF')
-	ORDER BY NEWID()	
-
-INSERT INTO Exam_Question	--Generate multiple choice Question
-	SELECT TOP(@no_ML) @ex_id, Q.Question_ID
-	FROM Questions Q JOIN Courses C ON C.Course_Id =Q.Crs_ID
-	WHERE C.Course_Id = @cur_Id AND Q.Q_Type IN('MCQ')
-	ORDER BY NEWID()
-
-SELECT  Q.Question_ID, Q.Q_Content, [A], [B], [C], [D]  --Return Exam Question
-	FROM Questions Q INNER JOIN Question_Choices chs ON Q.Question_ID =chs.Question_ID
-	JOIN Exam_Question EX ON Q.Question_ID = EX.QuesId
-	WHERE EX.ExamId = @ex_id
-
-END
-GO
---test
-sp_exam_generation 2,3,7,40,100
-
-
-
---Exam Correction
-CREATE PROC Exam_Correction @stud_id int, @exam_id int
-AS
-DECLARE @total_questions int
-SELECT  @total_questions = count(QuesId) FROM Student_Answer
-WHERE  StudId = @stud_id AND ExamId = @exam_id
-
-DECLARE @total_right_questions float
-SELECT  @total_right_questions = count(SA.QuesId) 
-FROM Student_Answer SA JOIN Questions Q ON SA.QuesId = Q.Question_ID
-WHERE  StudId = @stud_id AND ExamId = @exam_id AND SA.StudQuesAns = Q.Correct_Answer
-
-DECLARE @Grade INT
-SELECT  @Grade = @total_right_questions/@total_questions*100
-
-UPDATE Std_courses
-SET	   Grade = @Grade
-WHERE  Std_id = @stud_id and Course_id = (Select CourseId from Exam where ExamId = @exam_id)
-
-SELECT 'Student Degree Percentage' + str(@Grade) + '%'
-go
-
---test
-
-Exam_Correction 1,1
-
-Exam_Correction 6,1
-
---Student Exam
-
-CREATE PROC Student_Exam @student_id int, @course_id int
-AS
-IF not EXISTS (SELECT * FROM Std_courses WHERE Std_id = @student_id AND Course_id = @course_id)
-	SELECT 'you are not recorded at this course'
-ELSE
-	begin
-	DECLARE @exam_id int
-	SELECT  @exam_id = MAX(ExamId) FROM Exam
-	WHERE   CourseId = @course_id
-	ORDER BY NEWID()
-
-	DECLARE @Number_Questoin int
-	SELECT @Number_Questoin = COUNT(QuesId) FROM Exam_Question
-	WHERE  ExamId = @exam_id
-
-	SELECT @exam_id Exam_ID, q.Question_ID, q.Q_Content, chs.Option_1,chs.Option_2,chs.Option_3,chs.Option_4,q.Q_Type,e.ExamTime, @Number_Questoin Num_Q_exam
-	FROM Questions q 
-	JOIN Question_Choices chs ON Q.Question_ID = chs.Question_ID
-	JOIN Exam_Question eq ON q.Question_ID = eq.QuesId
-	JOIN Exam e ON e.ExamId = eq.ExamId
-	WHERE eq.ExamId = @exam_id
-	ORDER BY NEWID()
-	END
-	go
-
-
-
-
--- Exam Answers Stored procedure
-
-CREATE PROCEDURE  [dbo].[PRO_examAnswers]
-    @examId INT,
-	@student_id INT,
-	@questionId INT,
-	@ans CHAR(1)
-AS
-	BEGIN TRY
-		IF NOT EXISTS (SELECT * FROM Exam WHERE ExamId=@examId)
-			BEGIN
-            	SELECT 'Exam do not exist' AS 'errMessage'
-            END
-		ELSE IF NOT EXISTS (SELECT * FROM Questions q WHERE Question_ID=@questionId)
-		BEGIN
-            SELECT 'Question does not exist' AS 'errMessage'
-        END
-		ELSE IF NOT EXISTS (SELECT * FROM Students s WHERE s.Std_id=@student_id)
-			BEGIN
-            	SELECT 'Student does not exist' AS 'errMessage'
-            END
-		ELSE
-			BEGIN	
-				INSERT INTO Student_Answer (ExamId, QuesId, StudId, StudQuesAns)
-				VALUES (@examId, @questionId, @student_id, @ans);
-			END		
-	END TRY
-	BEGIN CATCH
-	 SELECT ERROR_MESSAGE() AS errorMessage
-	END CATCH
-
-
-	EXEC PRO_examAnswers @examId = 1
-						,@student_id = 2
-						,@questionId = 5
-						,@ans = 'B'

@@ -3,6 +3,19 @@ USE db_project
 --1)Instractor Table
 SP_InsertInstractor @Fname = 'Nada' ,@Lname = 'Ahmed' , @gender = 'male',@age = 29 , @email = 'Example21@example.com' , @Phone = '01023456789' ,@Zip_code = '00000' , @Street  = 'Street1' ,@City = 'Cairo' ,@password = '123456' ,@Salary  = 20000
 
+SP_InsertStudent  @Fname = 'Ahmed' ,@Lname = 'Taha' , @gender = 'male',@age = 22 , @email = 'Example1@example.com' , @Phone = '01023456789' ,@Zip_code = '00000' , @Street  = 'Street1' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Taha' ,@Lname = 'Ahmed' , @gender = 'male',@age = 22 , @email = 'Example2@example.com' , @Phone = '01033456789' ,@Zip_code = '00001' , @Street  = 'Street2' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Nasr' ,@Lname = 'Taha' , @gender = 'male',@age = 24 , @email = 'Example3@example.com' , @Phone = '01025456789' ,@Zip_code = '50000' , @Street  = 'Street5' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Nora' ,@Lname = 'Taha' , @gender = 'male',@age = 22 , @email = 'Example4@example.com' , @Phone = '01023456789' ,@Zip_code = '00000' , @Street  = 'Street6' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Asmaa' ,@Lname = 'Ahmed' , @gender = 'female',@age = 25 , @email = 'Example6@example.com' , @Phone = '01723456789' ,@Zip_code = '00000' , @Street  = 'Street8' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Aya' ,@Lname = 'Abdo' , @gender = 'female',@age = 26 , @email = 'Example7@example.com' , @Phone = '01002345789' ,@Zip_code = '04000' , @Street  = 'Street22' ,@City = 'Cairo' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Eman' ,@Lname = 'Hessen' , @gender = 'female',@age = 23 , @email = 'Example8@example.com' , @Phone = '01062345789' ,@Zip_code = '04060' , @Street  = 'Street9' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Mona' ,@Lname = 'Hessen' , @gender = 'female',@age = 25 , @email = 'Example9@example.com' , @Phone = '01062399989' ,@Zip_code = '04060' , @Street  = 'Street8' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Maram' ,@Lname = 'Magdy' , @gender = 'female',@age = 23 , @email = 'Example10@example.com' , @Phone = '0106256989' ,@Zip_code = '04060' , @Street  = 'Street8' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Manal' ,@Lname = 'Magdy' , @gender = 'female',@age = 23 , @email = 'Example11@example.com' , @Phone = '0106256989' ,@Zip_code = '04060' , @Street  = 'Street8' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Manar' ,@Lname = 'Mousa' , @gender = 'female',@age = 25 , @email = 'Example12@example.com' , @Phone = '0106256989' ,@Zip_code = '04060' , @Street  = 'Street8' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+SP_InsertStudent  @Fname = 'Mayar' ,@Lname = 'Ayman' , @gender = 'female',@age = 24 , @email = 'Example13@example.com' , @Phone = '0106256989' ,@Zip_code = '04060' , @Street  = 'Street8' ,@City = 'Tanta' ,@password = '123456' ,@Dept =1 ,@Supervisor =1 
+
 
 
 --Insert BULK DATA
@@ -87,7 +100,16 @@ SP_GetAllDepartmentS
 SP_GetDepartmentByID 11
 SP_UpdateDepartment 6, @name ='ttest'
 
-
+SP_InsertDepartment @Dname = 'PD' , @Manager_id = 5 , @HireDate = '2020-1-1'
+SP_InsertDepartment @Dname = 'OS' , @Manager_id = 9 , @HireDate = '2020-4-1' 
+SP_InsertDepartment @Dname = 'HR' , @Manager_id = 11 , @HireDate = '2020-8-1'
+SP_InsertDepartment @Dname = 'Cyber Security' , @Manager_id = 12 , @HireDate = '2021-1-1' 
+SP_InsertDepartment @Dname = 'System Admin' , @Manager_id = 13 , @HireDate = '2021-4-1' 
+SP_InsertDepartment @Dname = 'Marketing' , @Manager_id = 14 , @HireDate = '2021-8-1' 
+SP_InsertDepartment @Dname = 'Training' , @Manager_id = 15 , @HireDate = '2022-1-1'
+SP_InsertDepartment @Dname = 'English' , @Manager_id = 16 , @HireDate = '2022-4-1'
+SP_InsertDepartment @Dname = 'social Media' , @Manager_id = 17 , @HireDate = '2023-1-1'
+SP_InsertDepartment @Dname = 'Sales' , @Manager_id = 18 , @HireDate = ''
 
 
 --3)Students Table
