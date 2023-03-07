@@ -21,8 +21,10 @@ Clone GitHub repository to your local machine:
 git clone https://github.com/Ahhmedshams/Examination-System
 
 ## Entity Relationship Diagram
-![ERD](https://github.com/Ahhmedshams/Examination-System/blob/main/ERD/ERD.pdf)
+![ERD](https://github.com/Ahhmedshams/Examination-System/blob/main/ERD/ERD.png)
 
+## SQL Diagram
+![Diagram](https://github.com/Ahhmedshams/Examination-System/blob/main/ERD/Digram.png)
 
 
 ## Features
