@@ -18,7 +18,7 @@
 
 Clone GitHub repository to your local machine:
 
-git clone https://github.com/MOSTAFA-EL-NADY/ITI-examintation-DB-System
+git clone https://github.com/Ahhmedshams/Examination-System
 
 ## Entity Relationship Diagram
 ![ERD](https://github.com/Ahhmedshams/Examination-System/blob/main/ERD/ERD.pdf)
